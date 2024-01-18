@@ -39,7 +39,7 @@ class AllCharacterScreen extends ConsumerWidget {
                     onTap: () {
                       showSearchBar(
                           context: context,
-                          delegate: CustomSearchDelegate(ref: ref,));
+                          delegate: CustomSearchDelegate(ref: ref));
                     },
                   ),
                   kSBH24,
@@ -80,10 +80,20 @@ class AllCharacterScreen extends ConsumerWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            AppImages.mortyNoEyes,
-                            width: 134,
-                            // height: 224.75,
+                          InkWell(
+                            overlayColor: const MaterialStatePropertyAll(
+                                AppColors.colorTransparent),
+                            onTap: () {
+                              ref
+                                  .read(River.charactersPod.notifier)
+                                  .clearCharactersList();
+                              ref.invalidate(getCharacters);
+                            },
+                            child: Image.asset(
+                              AppImages.mortyNoEyes,
+                              width: 134,
+                              height: 224.75,
+                            ),
                           ),
                           kSBH24,
                           Text(
@@ -126,7 +136,6 @@ class AllCharacterScreen extends ConsumerWidget {
                                 .read(River.charactersPod.notifier)
                                 .clearCharactersList();
                             ref.invalidate(getCharacters);
-                            // );
                           },
                           child: CustomScrollView(
                             slivers: [
