@@ -1,80 +1,78 @@
-﻿import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:http/http.dart' as http;
+﻿// import 'dart:convert';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:http/http.dart' as http;
+// import 'package:rick_and_morty/models/character_model/character_model.dart';
+// import 'package:rick_and_morty/screens/Episodes/episode_screen.dart';
+// import 'package:rick_and_morty/screens/Location/location_screen.dart';
+// import 'package:rick_and_morty/screens/all%20_character/all_character_screen.dart';
+// import 'package:rick_and_morty/utils/resources/app_images.dart';
 
-import '../../images.dart';
+// class CharacterRepo {
+//   final getChars = 'https://rickandmortyapi.com/api/character';
+//   final getLocats = 'https://rickandmortyapi.com/api/location';
 
-import '../../screens/Episodes/episode_screen.dart';
-import '../../screens/Location/location_screen.dart';
-import '../../screens/all _character/all_character_screen.dart';
-import '../character_model/character_model.dart';
+//   // Future<CharacterModel> getLocation() async {
+//   //   try {
+//   //     final response =
+//   //         await http.get(Uri.parse('$getChars?pages=$pages&name=$name'));
+//   //     final result = json.decode(response.body);
+//   //     return CharacterModel.fromJson(result);
+//   //   } catch (e) {
+//   //     throw Exception(e.toString());
+//   //   }
+//   // }
 
-class CharacterRepo {
-  final getChars = 'https://rickandmortyapi.com/api/character';
-  final getLocats = 'https://rickandmortyapi.com/api/location';
+//   Future<CharacterModel> getCharacter(
+//     int pages,
+//     String name,
+//   ) async {
+//     try {
+//       final response =
+//           await http.get(Uri.parse('$getChars?pages=$pages&name=$name'));
+//       final result = json.decode(response.body);
+//       return CharacterModel.fromJson(result);
+//     } catch (e) {
+//       throw Exception(e.toString());
+//     }
+//   }
 
-  // Future<CharacterModel> getLocation() async {
-  //   try {
-  //     final response =
-  //         await http.get(Uri.parse('$getChars?pages=$pages&name=$name'));
-  //     final result = json.decode(response.body);
-  //     return CharacterModel.fromJson(result);
-  //   } catch (e) {
-  //     throw Exception(e.toString());
-  //   }
-  // }
+//   // final characterBloc = CharacterBloc(characterRepo: CharacterRepo());
+//   final bool isActivated = true;
 
-  Future<CharacterModel> getCharacter(
-    int pages,
-    String name,
-  ) async {
-    try {
-      final response =
-          await http.get(Uri.parse('$getChars?pages=$pages&name=$name'));
-      final result = json.decode(response.body);
-      return CharacterModel.fromJson(result);
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
+//   List<Widget> screens = [
+//     const AllCharacterScreen(),
+//     const LocationScreen(),
+//     const EpisodeScreen(),
+//   ];
 
-  // final characterBloc = CharacterBloc(characterRepo: CharacterRepo());
-  final bool isActivated = true;
+//   SvgPicture list = SvgPicture.asset(AppImages.list);
+//   SvgPicture grid = SvgPicture.asset(AppImages.grid);
 
-  List<Widget> screens = [
-    const AllCharacterScreen(),
-    const LocationScreen(),
-    const EpisodeScreen(),
-  ];
+//   // ListView listViewCharacter = ListView.separated(
+//   //   physics: const NeverScrollableScrollPhysics(),
+//   //   shrinkWrap: true,
+//   //   itemCount: 7,
+//   //   itemBuilder: (context, index) => CharacterListWidget(
+//   //       results: BlocProvider.of<CharacterBloc>(context)
+//   //           .allCharacters[index]
+//   //           .results![index]),
+//   //   separatorBuilder: (context, index) => const SizedBox(height: 24),
+//   // );
 
-  SvgPicture list = SvgPicture.asset(AppImages.list);
-  SvgPicture grid = SvgPicture.asset(AppImages.grid);
-
-  // ListView listViewCharacter = ListView.separated(
-  //   physics: const NeverScrollableScrollPhysics(),
-  //   shrinkWrap: true,
-  //   itemCount: 7,
-  //   itemBuilder: (context, index) => CharacterListWidget(
-  //       results: BlocProvider.of<CharacterBloc>(context)
-  //           .allCharacters[index]
-  //           .results![index]),
-  //   separatorBuilder: (context, index) => const SizedBox(height: 24),
-  // );
-
-  // GridView gridView = GridView.builder(
-  //   itemCount: 7,
-  //   shrinkWrap: true,
-  //   physics: const NeverScrollableScrollPhysics(),
-  //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-  //       crossAxisCount: 2,
-  //       mainAxisSpacing: 24,
-  //       crossAxisSpacing: 16,
-  //       childAspectRatio: 0.85),
-  //   itemBuilder: (context, index) => CharactersGridWidget(
-  //     model: BlocProvider.of<CharacterBloc>(context)
-  //         .allCharacters[index]
-  //         .results![index],
-  //   ),
-  // );
-}
+//   // GridView gridView = GridView.builder(
+//   //   itemCount: 7,
+//   //   shrinkWrap: true,
+//   //   physics: const NeverScrollableScrollPhysics(),
+//   //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//   //       crossAxisCount: 2,
+//   //       mainAxisSpacing: 24,
+//   //       crossAxisSpacing: 16,
+//   //       childAspectRatio: 0.85),
+//   //   itemBuilder: (context, index) => CharactersGridWidget(
+//   //     model: BlocProvider.of<CharacterBloc>(context)
+//   //         .allCharacters[index]
+//   //         .results![index],
+//   //   ),
+//   // );
+// }

@@ -1,132 +1,132 @@
-﻿// ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable, unused_element, iterable_contains_unrelated_type
+﻿// // ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable, unused_element, iterable_contains_unrelated_type
 
-import 'dart:developer';
+// import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:rick_and_morty/models/repository/repository.dart';
-import 'package:stream_transform/stream_transform.dart';
+// import 'package:rick_and_morty/models/repository/repository.dart';
+// import 'package:stream_transform/stream_transform.dart';
 
-import '../models/character_model/character_model.dart';
 
-EventTransformer<E> _restartableDebounce<E>() {
-  return (events, mapper) =>
-      events.debounce(const Duration(milliseconds: 400)).switchMap(mapper);
-}
 
-class CharacterBloc extends Bloc<CharacterEvents, CharacterStates> {
-  CharacterBloc({
-    required this.characterRepo,
-  }) : super(CharacterInitialState([])) {
-    on<GetCharacter>(
-      (event, emit) async {
-        emit(CharacterLoadingState(characters: state.characters));
-        await Future.delayed(const Duration(seconds: 2));
-        try {
-          final _characters =
-              await characterRepo.getCharacter(event.pages, event.name);
-          allCharacters == _characters;
-          emit(CharacterSuccesState(characters: allCharacters));
+// EventTransformer<E> _restartableDebounce<E>() {
+//   return (events, mapper) =>
+//       events.debounce(const Duration(milliseconds: 400)).switchMap(mapper);
+// }
 
-          log(_characters.toString());
-        } catch (e) {
-          emit(CharacterErrorState(allCharacters));
-          log(e.toString());
-        }
-      },
-    );
-    on<SearchCharacters>((event, emit) async {
-      emit(CharacterLoadingState(characters: state.characters));
-      await Future.delayed(const Duration(milliseconds: 300));
+// class CharacterBloc extends Bloc<CharacterEvents, CharacterStates> {
+//   CharacterBloc({
+//     required this.characterRepo,
+//   }) : super(CharacterInitialState([])) {
+//     on<GetCharacter>(
+//       (event, emit) async {
+//         emit(CharacterLoadingState(characters: state.characters));
+//         await Future.delayed(const Duration(seconds: 2));
+//         try {
+//           final _characters =
+//               await characterRepo.getCharacter(event.pages, event.name);
+//           allCharacters == _characters;
+//           emit(CharacterSuccesState(characters: allCharacters));
 
-      final newCharacter = allCharacters.where((e) {
-        return e.results!.contains(event.text.toLowerCase());
-      }).toList();
-      emit(CharacterSuccesState(
-        characters: newCharacter,
-      ));
-    }, transformer: _restartableDebounce());
-    on<ChangeCharactersPosition>(
-      (event, emit) {
-        log(characterRepo.isActivated.toString());
-        if (characterRepo.isActivated) {
-          try {
-            characterRepo.isActivated != false;
-            emit(CharacterSuccesState(characters: allCharacters));
-          } catch (e) {
-            log(characterRepo.isActivated.toString());
-          }
-        } else {
-          characterRepo.isActivated != true;
-          emit(CharacterSuccesState(characters: allCharacters));
-        }
-      },
-    );
-  }
-  final CharacterRepo characterRepo;
+//           log(_characters.toString());
+//         } catch (e) {
+//           emit(CharacterErrorState(allCharacters)); 
+//           log(e.toString());
+//         }
+//       },
+//     );
+//     on<SearchCharacters>((event, emit) async {
+//       emit(CharacterLoadingState(characters: state.characters));
+//       await Future.delayed(const Duration(milliseconds: 300));
 
-  List<CharacterModel> allCharacters = [];
-}
+//       final newCharacter = allCharacters.where((e) {
+//         return e.results!.contains(event.text.toLowerCase());
+//       }).toList();
+//       emit(CharacterSuccesState(
+//         characters: newCharacter,
+//       ));
+//     }, transformer: _restartableDebounce());
+//     on<ChangeCharactersPosition>(
+//       (event, emit) {
+//         log(characterRepo.isActivated.toString());
+//         if (characterRepo.isActivated) {
+//           try {
+//             characterRepo.isActivated != false;
+//             emit(CharacterSuccesState(characters: allCharacters));
+//           } catch (e) {
+//             log(characterRepo.isActivated.toString());
+//           }
+//         } else {
+//           characterRepo.isActivated != true;
+//           emit(CharacterSuccesState(characters: allCharacters));
+//         }
+//       },
+//     );
+//   }
+//   final CharacterRepo characterRepo;
 
-//Events
+//   List<CharacterModel> allCharacters = [];
+// }
 
-abstract class CharacterEvents {}
+// //Events
 
-class SearchCharacters extends CharacterEvents {
-  final String text;
+// abstract class CharacterEvents {}
 
-  SearchCharacters(this.text);
-}
+// class SearchCharacters extends CharacterEvents {
+//   final String text;
 
-class GetCharacter extends CharacterEvents {
-  final String name;
-  final int pages;
+//   SearchCharacters(this.text);
+// }
 
-  GetCharacter(this.name, this.pages);
-}
+// class GetCharacter extends CharacterEvents {
+//   final String name;
+//   final int pages;
 
-class ChangeCharactersPosition extends CharacterEvents {
-  ChangeCharactersPosition();
-}
+//   GetCharacter(this.name, this.pages);
+// }
 
-//States
+// class ChangeCharactersPosition extends CharacterEvents {
+//   ChangeCharactersPosition();
+// }
 
-abstract class CharacterStates {
-  final List<CharacterModel> characters;
+// //States
 
-  CharacterStates({required this.characters});
-}
+// abstract class CharacterStates {
+//   final List<CharacterModel> characters;
 
-class CharacterLoadingState extends CharacterStates {
-  @override
-  // ignore: overridden_fields
-  final List<CharacterModel> characters;
-  CharacterLoadingState({required this.characters})
-      : super(characters: characters);
-}
+//   CharacterStates({required this.characters});
+// }
 
-class CharacterErrorState extends CharacterStates {
-  CharacterErrorState(this.characters) : super(characters: characters);
+// class CharacterLoadingState extends CharacterStates {
+//   @override
+//   // ignore: overridden_fields
+//   final List<CharacterModel> characters;
+//   CharacterLoadingState({required this.characters})
+//       : super(characters: characters);
+// }
 
-  @override
-  // ignore: overridden_fields
-  final List<CharacterModel> characters;
-}
+// class CharacterErrorState extends CharacterStates {
+//   CharacterErrorState(this.characters) : super(characters: characters);
 
-class CharacterSuccesState extends CharacterStates {
-  @override
-  // ignore: overridden_fields
-  final List<CharacterModel> characters;
+//   @override
+//   // ignore: overridden_fields
+//   final List<CharacterModel> characters;
+// }
 
-  CharacterSuccesState({required this.characters})
-      : super(characters: characters);
-}
+// class CharacterSuccesState extends CharacterStates {
+//   @override
+//   // ignore: overridden_fields
+//   final List<CharacterModel> characters;
 
-class CharacterInitialState extends CharacterStates {
-  @override
-  // ignore: overridden_fields
-  final List<CharacterModel> characters;
+//   CharacterSuccesState({required this.characters})
+//       : super(characters: characters);
+// }
 
-  CharacterInitialState(this.characters) : super(characters: characters);
-}
+// class CharacterInitialState extends CharacterStates {
+//   @override
+//   // ignore: overridden_fields
+//   final List<CharacterModel> characters;
+
+//   CharacterInitialState(this.characters) : super(characters: characters);
+// }
