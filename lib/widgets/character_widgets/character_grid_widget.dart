@@ -1,5 +1,8 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:flutter/cupertino.dart';
 import 'package:rick_and_morty/models/models.dart';
+import 'package:rick_and_morty/utils/converting.dart';
+import 'package:rick_and_morty/utils/inkwell_transparent.dart';
+import 'package:rick_and_morty/widgets/custom_avatar.dart';
 // import 'package:rick_and_morty/screens/More%20info%20screen/character%20info/all_info_character.dart';
 
 // import '../../data/models/Character model/character_model.dart';
@@ -18,32 +21,29 @@ class CharactersGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return InkWellTransparent(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(
+          CupertinoPageRoute(
             builder: (context) => AllInfoCharacter(model: model),
           ),
         );
       },
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          CircleAvatar(
-            maxRadius: 61,
-            minRadius: 61,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Image.asset(
-                model.image!,
-                cacheHeight: 200,
-                cacheWidth: 200,
-              ),
-            ),
-          ),
+          CustomAvatar(imageUrl: model.image!, height: 120, width: 120),
           const SizedBox(height: 18),
-          Text(model.status!),
-          Text(model.name!, style: AppTextStyle.w500s16),
+          Text(
+            model.status!.toUpperCase(),
+            style: AppTextStyle.w500s10
+                .copyWith(color: Converting().getStatusColor(model)),
+          ),
+          Text(
+            model.name!,
+            style: AppTextStyle.w500s14,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           Text('${model.species}, ${model.gender}',
               style: AppTextStyle.w400s12),
         ],

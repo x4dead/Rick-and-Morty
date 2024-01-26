@@ -130,7 +130,7 @@ class AllCharacterScreen extends ConsumerWidget {
                           // notificationPredicate: (notification) {
                           //   return notification. metrics.pixels == 50;
                           // },
-                          edgeOffset: -5,
+                          // edgeOffset: -5,
                           onRefresh: () async {
                             ref
                                 .read(River.charactersPod.notifier)
@@ -153,21 +153,24 @@ class AllCharacterScreen extends ConsumerWidget {
                                         .characters!
                                         .characters![index],
                                   ),
-                                  separatorBuilder: (context, index) => kSBH24,
+                                  separatorBuilder: (context, index) => kSBH12,
                                 )
                               else
-                                SliverGrid.builder(
-                                  itemCount: data.characters!.length,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 24,
-                                    crossAxisSpacing: 16,
-                                    // childAspectRatio: 0.85,
-                                  ),
-                                  itemBuilder: (context, index) =>
-                                      CharactersGridWidget(
-                                    model: data.characters![index],
+                                SliverPadding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  sliver: SliverGrid.builder(
+                                    itemCount: data.characters!.length,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            mainAxisSpacing: 24,
+                                            crossAxisSpacing: 16,
+                                            childAspectRatio: 0.9),
+                                    itemBuilder: (context, index) =>
+                                        CharactersGridWidget(
+                                      model: data.characters![index],
+                                    ),
                                   ),
                                 )
                             ],

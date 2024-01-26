@@ -8,7 +8,7 @@ abstract class AppTextStyle {
     fontSize: 10,
     fontWeight: FontWeight.w500,
     color: AppColors.color5B6975,
-    height: 10.0.toFigmaHeight(10),
+    height: 16.0.toFigmaHeight(10),
     letterSpacing: 1.5,
   );
 
@@ -70,11 +70,12 @@ abstract class AppTextStyle {
     color: AppColors.color5B6975,
   );
 
-  static const TextStyle w500s14 = TextStyle(
-    fontWeight: FontWeight.w500,
-    fontSize: 14,
-    color: AppColors.colorFFFFFF,
-  );
+  static TextStyle w500s14 = TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 14,
+      color: AppColors.colorFFFFFF,
+      letterSpacing: 0.1,
+      height: 20.0.toFigmaHeight(14));
 
   static const TextStyle w400s34 = TextStyle(
     fontSize: 34,
