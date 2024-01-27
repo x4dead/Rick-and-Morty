@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:rick_and_morty/models/models.dart';
 import 'package:rick_and_morty/themes/colors/app_colors.dart';
 import 'package:rick_and_morty/utils/converting.dart';
+import 'package:rick_and_morty/widgets/custom_avatar.dart';
 import 'package:rick_and_morty/widgets/custom_list_tile.dart';
-import '../../pages/more_info_screen/character info/all_info_character.dart';
+import '../../pages/more_info/character_info/all_info_character.dart';
 import '../../themes/text_styly/app_text_style.dart';
 
 class CharacterListTile extends StatelessWidget {
@@ -18,8 +19,8 @@ class CharacterListTile extends StatelessWidget {
       child: CustomListTile(
         onTap: () {
           Navigator.of(context).push(
-            CupertinoPageRoute(
-              builder: (context) => AllInfoCharacter(model: results),
+            MaterialPageRoute(
+              builder: (context) => CharacterInfoPage(model: results),
             ),
           );
         },
@@ -31,7 +32,11 @@ class CharacterListTile extends StatelessWidget {
         title: (results.status ?? '').toUpperCase(),
         titleStyle: AppTextStyle.w500s10green
             .copyWith(color: Converting().getStatusColor(results)),
-        leadingUrl: results.image!,
+        // leadingUrl: results.image!,
+        leading: Hero(
+            tag: 'character-img-${results.image}',
+            child:
+                CustomAvatar(imageUrl: results.image!, height: 74, width: 74)),
         subTitle: results.name!,
         subTitleStyle: AppTextStyle.w500s16,
         overline: '${results.species}, ${results.gender}',
@@ -42,7 +47,7 @@ class CharacterListTile extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           CupertinoPageRoute(
-            builder: (context) => AllInfoCharacter(model: results),
+            builder: (context) => CharacterInfoPage(model: results),
           ),
         );
       },

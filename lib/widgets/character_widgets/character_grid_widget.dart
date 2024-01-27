@@ -8,7 +8,7 @@ import 'package:rick_and_morty/widgets/custom_avatar.dart';
 // import '../../data/models/Character model/character_model.dart';
 // import '../../models/character model/character_model.dart';
 
-import '../../pages/more_info_screen/character info/all_info_character.dart';
+import '../../pages/more_info/character_info/all_info_character.dart';
 import '../../themes/text_styly/app_text_style.dart';
 
 class CharactersGridWidget extends StatelessWidget {
@@ -25,7 +25,7 @@ class CharactersGridWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           CupertinoPageRoute(
-            builder: (context) => AllInfoCharacter(model: model),
+            builder: (context) => CharacterInfoPage(model: model),
           ),
         );
       },

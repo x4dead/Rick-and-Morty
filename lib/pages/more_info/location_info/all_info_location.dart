@@ -1,11 +1,8 @@
 ﻿import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:rick_and_morty/models/models.dart';
 import 'package:rick_and_morty/themes/colors/app_colors.dart';
-import '../../../models/repository/repository.dart';
+import 'package:rick_and_morty/widgets/arrow_back_button.dart';
 import '../../../themes/text_styly/app_text_style.dart';
-
-import '../character info/Shapka-Ava/shapka_ava.dart';
 
 class AllInfoLocation extends StatelessWidget {
   const AllInfoLocation({Key? key, required this.model}) : super(key: key);
@@ -29,10 +26,10 @@ class AllInfoLocation extends StatelessWidget {
                       height: 300,
                     ),
                     BGImageWidget(worldImage: model.dimension!),
-                    Positioned(
+                    const Positioned(
                       left: 24,
                       top: 48,
-                      child: ArrowBack(),
+                      child: ArrowBackButton(),
                     ),
                     // MainLayot(
                     //   worldName: model.worldName,

@@ -10,6 +10,14 @@ abstract class AppColors {
   static const Color colorEB5757 = Color(0xffEB5757);
   static const Color color22A2BD = Color(0xff22A2BD);
   static const Color colorTransparent = Colors.transparent;
+  static const LinearGradient characterBackGradient = LinearGradient(
+    transform: GradientRotation(90),
+    colors: [
+      Color(0xFF000000),
+      Color(0x0B1E2D00),
+      Color(0x0B1E2D00),
+    ],
+  );
   // static const Color colorGreenAccent = Colors.greenAccent;
   // static const Color colorFFFF = Color.fromARGB(255, 207, 207, 207);
 }

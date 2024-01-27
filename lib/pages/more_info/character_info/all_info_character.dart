@@ -1,12 +1,13 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:rick_and_morty/models/models.dart';
-// import 'package:rick_and_morty/data/models/Character%20model/character_model.dart';
 import 'package:rick_and_morty/themes/colors/app_colors.dart';
 import 'package:rick_and_morty/themes/text_styly/app_text_style.dart';
+import 'package:rick_and_morty/utils/constants/ui_constants.dart';
+import 'package:rick_and_morty/widgets/custom_list_tile.dart';
 import 'Shapka-Ava/shapka_ava.dart';
 
-class AllInfoCharacter extends StatelessWidget {
-  const AllInfoCharacter({Key? key, required this.model}) : super(key: key);
+class CharacterInfoPage extends StatelessWidget {
+  const CharacterInfoPage({Key? key, required this.model}) : super(key: key);
 
   final RestSingleCharacter model;
 
@@ -15,22 +16,27 @@ class AllInfoCharacter extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.color0B1E2D,
       body: CustomScrollView(slivers: [
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              ShapkaAva(image: model.image!),
-              PersonalInfo(
-                place: model.gender!,
-                bio: model.gender!,
-                gender: model.gender!,
-                name: model.name!,
-                species: model.species!,
-                status: model.status!,
-              ),
-              const Divider(color: AppColors.color152A3A, thickness: 2),
-            ],
-          ),
+        SliverPersistentHeader(
+          delegate: ChatInfoHeader(model.image!, expandedHeight: 218),
+          pinned: true,
         ),
+        SliverList(
+          delegate: SliverChildListDelegate.fixed([
+            kSBH40,
+            kSBH50,
+            PersonalInfo(
+              place: model.gender!,
+              bio: model.gender!,
+              gender: model.gender!,
+              name: model.name!,
+              species: model.species!,
+              status: model.status!,
+            ),
+            const Divider(color: AppColors.color152A3A, thickness: 2),
+            ...List.generate(
+                50, (index) => CustomListTile(height: 77, title: 'title')),
+          ]),
+        )
       ]),
     );
   }
@@ -56,7 +62,7 @@ class PersonalInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Column(
         children: [
           Text(
