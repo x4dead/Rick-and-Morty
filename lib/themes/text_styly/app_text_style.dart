@@ -65,10 +65,11 @@ abstract class AppTextStyle {
     height: 16.0.toFigmaHeight(12.0),
   );
 
-  static const TextStyle w400s12nB = TextStyle(
-    fontSize: 12,
-    color: AppColors.color5B6975,
-  );
+  static TextStyle w400s12nB = TextStyle(
+      fontSize: 12,
+      color: AppColors.color5B6975,
+      letterSpacing: 0.5,
+      height: 16.0.toFigmaHeight(12));
 
   static TextStyle w500s14 = TextStyle(
       fontWeight: FontWeight.w500,
@@ -77,26 +78,28 @@ abstract class AppTextStyle {
       letterSpacing: 0.1,
       height: 20.0.toFigmaHeight(14));
 
-  static const TextStyle w400s34 = TextStyle(
-    fontSize: 34,
-    color: AppColors.colorFFFFFF,
-  );
+  static TextStyle w400s34 = TextStyle(
+      fontSize: 34,
+      color: AppColors.colorFFFFFF,
+      letterSpacing: 0.25,
+      height: 40.0.toFigmaHeight(34));
 
   static const TextStyle w400s13 = TextStyle(
     fontSize: 13,
     color: AppColors.colorFFFFFF,
   );
 
-  static const TextStyle w400s14 = TextStyle(
-    fontSize: 14,
-    color: AppColors.colorFFFFFF,
-  );
+  static TextStyle w400s14 = TextStyle(
+      fontSize: 14,
+      color: AppColors.colorFFFFFF,
+      letterSpacing: 0.25,
+      height: 20.0.toFigmaHeight(14));
 
-  static const TextStyle w500s20 = TextStyle(
-    fontWeight: FontWeight.w500,
-    fontSize: 20,
-    color: AppColors.colorFFFFFF,
-  );
+  static TextStyle w500s20 = TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 20,
+      color: AppColors.colorFFFFFF,
+      height: 28.0.toFigmaHeight(20));
 
   static const TextStyle w500s10blue = TextStyle(
     fontWeight: FontWeight.w500,

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rick_and_morty/data/rest/src/rest_client.dart';
 import 'package:rick_and_morty/models/models.dart';
@@ -8,14 +9,18 @@ import 'package:rick_and_morty/modules/signal_service/characters_ref/characters_
 class CharactersNotifer extends StateNotifier<CharactersStateRef> {
   CharactersNotifer() : super(CharactersStateRef());
 
-  Future<RestAllCharacters> getAllCharacters({required int pages}) async {
-    final restCharacters = await RestClient().getAllCharacters(page: pages);
-    state = state.copyWith(characters: restCharacters);
-    return restCharacters;
+  Future<AllCharacters> getAllCharacters({required int pages}) async {
+    try {
+      final restCharacters = await RestClient().getAllCharacters(page: pages);
+      state = state.copyWith(characters: restCharacters);
+      return restCharacters;
+    } catch (e) {
+      rethrow;
+    }
   }
 
-  Future<List<RestSingleCharacter>?> searchCharacters(String text) async {
-    List<RestSingleCharacter>? searchedCharacters = [];
+  Future<List<Character>?> searchCharacters(String text) async {
+    List<Character>? searchedCharacters = [];
 
     await Future.delayed(const Duration(milliseconds: 400));
 
@@ -31,5 +36,5 @@ class CharactersNotifer extends StateNotifier<CharactersStateRef> {
   }
 
   void clearCharactersList() =>
-      state = state.copyWith(characters: RestAllCharacters());
+      state = state.copyWith(characters: AllCharacters());
 }

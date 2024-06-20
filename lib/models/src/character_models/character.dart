@@ -1,6 +1,6 @@
 ﻿import 'dart:convert';
 
-class RestSingleCharacter {
+class Character {
   final int? id;
   final String? name;
   final String? status;
@@ -14,7 +14,7 @@ class RestSingleCharacter {
   final String? url;
   final String? created;
 
-  RestSingleCharacter({
+  Character({
     this.id,
     this.name,
     this.status,
@@ -29,7 +29,7 @@ class RestSingleCharacter {
     this.created,
   });
 
-  RestSingleCharacter copyWith({
+  Character copyWith({
     int? id,
     String? name,
     String? status,
@@ -43,7 +43,7 @@ class RestSingleCharacter {
     String? url,
     String? created,
   }) =>
-      RestSingleCharacter(
+      Character(
         id: id ?? this.id,
         name: name ?? this.name,
         status: status ?? this.status,
@@ -58,21 +58,20 @@ class RestSingleCharacter {
         created: created ?? this.created,
       );
 
-  factory RestSingleCharacter.fromJson(String str) =>
-      RestSingleCharacter.fromMap(json.decode(str));
+  factory Character.fromJson(String str) => Character.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory RestSingleCharacter.fromMap(Map<String, dynamic> json) =>
-      RestSingleCharacter(
+  factory Character.fromMap(Map<String, dynamic> json) => Character(
         id: json["id"],
         name: json["name"],
         status: json["status"],
         species: json["species"],
         type: json["type"],
         gender: json["gender"],
-        origin:
-            json["origin"] == null ? null : CharacterLocation.fromMap(json["origin"]),
+        origin: json["origin"] == null
+            ? null
+            : CharacterLocation.fromMap(json["origin"]),
         location: json["location"] == null
             ? null
             : CharacterLocation.fromMap(json["location"]),
@@ -119,11 +118,13 @@ class CharacterLocation {
         url: url ?? this.url,
       );
 
-  factory CharacterLocation.fromJson(String str) => CharacterLocation.fromMap(json.decode(str));
+  factory CharacterLocation.fromJson(String str) =>
+      CharacterLocation.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory CharacterLocation.fromMap(Map<String, dynamic> json) => CharacterLocation(
+  factory CharacterLocation.fromMap(Map<String, dynamic> json) =>
+      CharacterLocation(
         name: json["name"],
         url: json["url"],
       );

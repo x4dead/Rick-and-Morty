@@ -2,8 +2,8 @@ import 'package:rick_and_morty/models/models.dart';
 
 class CharactersStateRef {
   bool isLoading;
-  RestAllCharacters? characters;
-  List<RestSingleCharacter>? searchedCharacters;
+  AllCharacters? characters;
+  List<Character>? searchedCharacters;
 
   CharactersStateRef({
     this.isLoading = false,
@@ -13,8 +13,8 @@ class CharactersStateRef {
 
   CharactersStateRef copyWith({
     bool? isLoading,
-    RestAllCharacters? characters,
-    List<RestSingleCharacter>? searchedCharacters,
+    AllCharacters? characters,
+    List<Character>? searchedCharacters,
   }) {
     return CharactersStateRef(
       isLoading: isLoading ?? this.isLoading,

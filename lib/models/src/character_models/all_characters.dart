@@ -1,37 +1,36 @@
 ﻿import 'dart:convert';
 
-import 'package:rick_and_morty/models/src/character_models/single_character.dart';
+import 'package:rick_and_morty/models/src/character_models/character.dart';
 
-class RestAllCharacters {
+class AllCharacters {
   final Info? info;
-  final List<RestSingleCharacter>? characters;
+  final List<Character>? characters;
 
-  RestAllCharacters({
+  AllCharacters({
     this.info,
     this.characters,
   });
 
-  RestAllCharacters copyWith({
+  AllCharacters copyWith({
     Info? info,
-    List<RestSingleCharacter>? characters,
+    List<Character>? characters,
   }) =>
-      RestAllCharacters(
+      AllCharacters(
         info: info ?? this.info,
         characters: characters ?? this.characters,
       );
 
-  factory RestAllCharacters.fromJson(String str) =>
-      RestAllCharacters.fromMap(json.decode(str));
+  factory AllCharacters.fromJson(String str) =>
+      AllCharacters.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory RestAllCharacters.fromMap(Map<String, dynamic> json) =>
-      RestAllCharacters(
+  factory AllCharacters.fromMap(Map<String, dynamic> json) => AllCharacters(
         info: json["info"] == null ? null : Info.fromMap(json["info"]),
         characters: json["results"] == null
             ? []
-            : List<RestSingleCharacter>.from(
-                json["results"]!.map((x) => RestSingleCharacter.fromMap(x))),
+            : List<Character>.from(
+                json["results"]!.map((x) => Character.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {

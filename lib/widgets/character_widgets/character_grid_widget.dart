@@ -17,7 +17,7 @@ class CharactersGridWidget extends StatelessWidget {
     required this.model,
   }) : super(key: key);
 
-  final RestSingleCharacter model;
+  final Character model;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class CharactersGridWidget extends StatelessWidget {
           Text(
             model.status!.toUpperCase(),
             style: AppTextStyle.w500s10
-                .copyWith(color: Converting().getStatusColor(model)),
+                .copyWith(color: Converting().getStatusColor(model.status!)),
           ),
           Text(
             model.name!,

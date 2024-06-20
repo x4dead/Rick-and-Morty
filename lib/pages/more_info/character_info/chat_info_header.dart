@@ -111,19 +111,19 @@ class ChatInfoHeader extends SliverPersistentHeaderDelegate {
               left: 16,
               child: const ArrowBackButton()),
           Positioned(
-            top: titlePosition <= 33 ? 33 : titlePosition,
+            top: titlePosition <= 30 ? 30 : titlePosition,
             child: SizedBox(
               width: context.width,
               child: SizedBox(
-                height: titleBorder <= 60 ? 60 : titleBorder,
+                height: titleBorder <= 65 ? 65 : titleBorder,
                 child: Hero(
                   tag: 'character-img-$image',
                   child: CircleAvatar(
                       backgroundColor: AppColors.color0B1E2D,
                       child: CustomAvatar(
                         imageUrl: image,
-                        height: titleSize <= 60 ? 60 : titleSize,
-                        width: titleSize <= 60 ? 60 : titleSize,
+                        height: titleSize <= 65 ? 65 : titleSize,
+                        width: titleSize <= 65 ? 65 : titleSize,
                       )),
                 ),
               ),

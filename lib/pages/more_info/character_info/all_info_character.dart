@@ -3,13 +3,15 @@ import 'package:rick_and_morty/models/models.dart';
 import 'package:rick_and_morty/themes/colors/app_colors.dart';
 import 'package:rick_and_morty/themes/text_styly/app_text_style.dart';
 import 'package:rick_and_morty/utils/constants/ui_constants.dart';
+import 'package:rick_and_morty/utils/converting.dart';
+import 'package:rick_and_morty/utils/inkwell_transparent.dart';
 import 'package:rick_and_morty/widgets/custom_list_tile.dart';
-import 'Shapka-Ava/shapka_ava.dart';
+import 'chat_info_header.dart';
 
 class CharacterInfoPage extends StatelessWidget {
   const CharacterInfoPage({Key? key, required this.model}) : super(key: key);
 
-  final RestSingleCharacter model;
+  final Character model;
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +24,29 @@ class CharacterInfoPage extends StatelessWidget {
         ),
         SliverList(
           delegate: SliverChildListDelegate.fixed([
-            kSBH40,
-            kSBH50,
-            PersonalInfo(
-              place: model.gender!,
-              bio: model.gender!,
-              gender: model.gender!,
-              name: model.name!,
-              species: model.species!,
-              status: model.status!,
+            // kSBH40,
+            // kSBH50,
+            _PersonalInfo(
+              model: model,
             ),
             const Divider(color: AppColors.color152A3A, thickness: 2),
-            ...List.generate(
-                50, (index) => CustomListTile(height: 77, title: 'title')),
+            kSBH36,
+            Row(
+              children: [
+                kSBW16,
+                Text(
+                  'Эпизоды',
+                  style: AppTextStyle.w500s20,
+                ),
+                const Spacer(),
+                Text(
+                  'Все эпизоды',
+                  style: AppTextStyle.w400s12nB,
+                ),
+                kSBW16,
+              ],
+            ),
+            kSBH24,
           ]),
         )
       ]),
@@ -42,78 +54,81 @@ class CharacterInfoPage extends StatelessWidget {
   }
 }
 
-class PersonalInfo extends StatelessWidget {
-  const PersonalInfo({
+class _PersonalInfo extends StatelessWidget {
+  const _PersonalInfo({
     Key? key,
-    required this.name,
-    required this.status,
-    required this.bio,
-    required this.gender,
-    required this.species,
-    required this.place,
+    required this.model,
   }) : super(key: key);
-  final String name;
-  final String status;
-  final String bio;
-  final String gender;
-  final String species;
-  final String place;
+  final Character model;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.fromLTRB(16, 90, 16, 34),
       child: Column(
         children: [
           Text(
-            name,
+            model.name!,
+            textAlign: TextAlign.center,
             style: AppTextStyle.w400s34,
           ),
           const SizedBox(height: 4),
-          Text(status),
-          const SizedBox(height: 30),
           Text(
-            bio,
-            style:
-                AppTextStyle.w400s14.copyWith(wordSpacing: 0.5, height: 1.35),
+            model.status!.toUpperCase(),
+            style: AppTextStyle.w500s10
+                .copyWith(color: Converting().getStatusColor(model.status!)),
           ),
           const SizedBox(height: 30),
-          Row(
-            children: const [
-              Text(
-                'Пол',
-                style: AppTextStyle.w400s12nB,
-              ),
-              SizedBox(width: 156),
-              Text(
-                'Расса',
-                style: AppTextStyle.w400s12nB,
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
+          // Text(
+          //   model.bio!,
+          //   style:
+          //       AppTextStyle.w400s14.copyWith(wordSpacing: 0.5, height: 1.35),
+          // ),
+          // const SizedBox(height: 30),
           Row(
             children: [
-              Text(
-                gender,
-                style: AppTextStyle.w400s14,
-              ),
-              const SizedBox(width: 118),
-              Text(
-                species,
-                style: AppTextStyle.w400s14,
-              ),
+              CategoryWidget(title: 'Пол', name: model.gender!),
+              const Spacer(),
+              CategoryWidget(title: 'Расса', name: model.species!),
+              const Spacer(),
             ],
           ),
           const SizedBox(height: 20),
-          LocationInfo(name: place),
+          LocationInfo(name: model.origin!.name!),
           const SizedBox(height: 24),
-          const LocationInfo(
+          LocationInfo(
             title: 'Местоположение',
-            name: 'Земля (Измерение подменны)',
+            name: model.location!.name!,
           ),
         ],
       ),
+    );
+  }
+}
+
+class CategoryWidget extends StatelessWidget {
+  const CategoryWidget({
+    super.key,
+    required this.title,
+    required this.name,
+  });
+  final String title;
+  final String name;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: AppTextStyle.w400s12nB,
+        ),
+        kSBH4,
+        Text(
+          name,
+          style: AppTextStyle.w400s14,
+        ),
+      ],
     );
   }
 }
@@ -123,10 +138,12 @@ class LocationInfo extends StatelessWidget {
     this.title = 'Место рождения',
     required this.name,
     Key? key,
+    this.onTap,
   }) : super(key: key);
 
   final String title;
   final String name;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +159,7 @@ class LocationInfo extends StatelessWidget {
           ],
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: onTap,
           icon: const Icon(
             Icons.keyboard_arrow_right_rounded,
             color: AppColors.colorFFFFFF,

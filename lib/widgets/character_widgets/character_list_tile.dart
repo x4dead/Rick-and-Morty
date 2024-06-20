@@ -11,7 +11,7 @@ import '../../themes/text_styly/app_text_style.dart';
 class CharacterListTile extends StatelessWidget {
   const CharacterListTile({Key? key, required this.results}) : super(key: key);
 
-  final RestSingleCharacter results;
+  final Character results;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class CharacterListTile extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         title: (results.status ?? '').toUpperCase(),
         titleStyle: AppTextStyle.w500s10green
-            .copyWith(color: Converting().getStatusColor(results)),
+            .copyWith(color: Converting().getStatusColor(results.status!)),
         // leadingUrl: results.image!,
         leading: Hero(
             tag: 'character-img-${results.image}',

@@ -3,14 +3,26 @@ import 'package:rick_and_morty/models/models.dart';
 import 'package:rick_and_morty/themes/colors/app_colors.dart';
 
 class Converting {
-  Color getStatusColor(RestSingleCharacter character) {
-    switch (character.status?.toLowerCase()) {
+  Color getStatusColor(String status) {
+    switch (status.toLowerCase()) {
       case 'alive':
         return AppColors.color43D049;
       case 'dead':
         return AppColors.colorEB5757;
       default:
         return AppColors.color5B6975;
+    }
+  }
+
+  String getEpisode(String episode, {bool? isOnlyEpisode = false}) {
+    final episode_ = "${episode[4]}${episode[5]}";
+    final correctEpisode = episode_[0] == "0" ? episode_[1] : episode_;
+    if (isOnlyEpisode == false) {
+      final season = "${episode[1]}${episode[2]}";
+      final correctSeason = season[0] == "0" ? season[1] : season;
+      return "сезон $correctSeason серия $correctEpisode".toUpperCase();
+    } else {
+      return "серия $correctEpisode".toUpperCase();
     }
   }
 

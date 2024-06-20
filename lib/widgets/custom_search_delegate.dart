@@ -205,7 +205,7 @@ class CustomSearchDelegate extends _SearchDelegate {
         // ),
 
         Expanded(
-          child: FutureBuilder<List<RestSingleCharacter>?>(
+          child: FutureBuilder<List<Character>?>(
             future: characters,
             builder: (context, snapshot) {
               if (snapshot.data?.isEmpty ?? true) {
@@ -245,7 +245,6 @@ class CustomSearchDelegate extends _SearchDelegate {
                           crossAxisCount: 2,
                           mainAxisSpacing: 24,
                           crossAxisSpacing: 16,
-                     
                         ),
                         itemBuilder: (context, index) => CharactersGridWidget(
                           model: snapshot.data![index],

@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -15,7 +16,7 @@ import 'package:rick_and_morty/widgets/custom_search_delegate.dart';
 import 'package:rick_and_morty/widgets/search_field/search_field_widget.dart';
 
 final getCharacters =
-    FutureProvider.family<RestAllCharacters, int>((ref, page) async {
+    FutureProvider.family<AllCharacters, int>((ref, page) async {
   return ref.read(River.charactersPod.notifier).getAllCharacters(pages: page);
 });
 final isListCharacters = StateProvider<bool>((ref) => true);
@@ -28,202 +29,198 @@ class AllCharacterScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.color0B1E2D,
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 10.29, 16, 24),
-              child: Column(
-                children: [
-                  SearchFieldWidget(
-                    title: 'Найти персонажа',
-                    onTap: () {
-                      showSearchBar(
-                          context: context,
-                          delegate: CustomSearchDelegate(ref: ref));
-                    },
-                  ),
-                  kSBH24,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 10.29, 16, 24),
+                  child: Column(
                     children: [
-                      Text(
-                        'Всего персонажей: ${ref.watch(River.charactersPod).characters?.characters?.length ?? 0}'
-                            .toUpperCase(),
-                        style:
-                            AppTextStyle.w500s10.copyWith(letterSpacing: 1.62),
-                      ),
-                      InkWell(
-                          onTap: () {
-                            if (ref.watch(isListCharacters) == true) {
-                              ref.read(isListCharacters.notifier).state = false;
-                            } else {
-                              ref.read(isListCharacters.notifier).state = true;
-                            }
-                          },
-                          overlayColor: MaterialStateProperty.all(
-                              AppColors.colorTransparent),
-                          child: SvgPicture.asset(
-                              ref.watch(isListCharacters) == true
-                                  ? AppImages.grid
-                                  : AppImages.list)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            Expanded(
-              child: ref.watch(getCharacters(0)).when(
-                    skipLoadingOnRefresh: false,
-                    skipLoadingOnReload: false,
-                    error: (error, stackTrace) => Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      kSBH48,
+                      kSBH20,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          InkWell(
-                            overlayColor: const MaterialStatePropertyAll(
-                                AppColors.colorTransparent),
-                            onTap: () {
-                              ref
-                                  .read(River.charactersPod.notifier)
-                                  .clearCharactersList();
-                              ref.invalidate(getCharacters);
-                            },
-                            child: Image.asset(
-                              AppImages.mortyNoEyes,
-                              width: 134,
-                              height: 224.75,
-                            ),
-                          ),
-                          kSBH24,
                           Text(
-                            'Произошла ошибка, нажмите чтобы\nповторите запрос!',
-                            textAlign: TextAlign.center,
-                            style: AppTextStyle.w400s16,
+                            'Всего персонажей: ${ref.watch(River.charactersPod).characters?.characters?.length ?? 0}'
+                                .toUpperCase(),
+                            style: AppTextStyle.w500s10
+                                .copyWith(letterSpacing: 1.62),
                           ),
+                          InkWell(
+                              onTap: () {
+                                if (ref.watch(isListCharacters) == true) {
+                                  ref.read(isListCharacters.notifier).state =
+                                      false;
+                                } else {
+                                  ref.read(isListCharacters.notifier).state =
+                                      true;
+                                }
+                              },
+                              overlayColor: WidgetStateProperty.all(
+                                  AppColors.colorTransparent),
+                              child: SvgPicture.asset(
+                                  ref.watch(isListCharacters) == true
+                                      ? AppImages.grid
+                                      : AppImages.list)),
                         ],
                       ),
-                    ),
-                    loading: () => Center(
-                      child: LoadingAnimationWidget.flickr(
-                        leftDotColor: AppColors.color5B6975,
-                        rightDotColor: AppColors.colorFFFFFF,
-                        size: 35,
-                      ),
-                    ),
-                    data: (data) {
-                      if (ref
-                              .watch(River.charactersPod)
-                              .characters
-                              ?.characters
-                              ?.isEmpty ??
-                          true) {
-                        return Center(
-                          child: Image.asset(AppImages.mortyMiddleFinger,
-                              scale: 3.1),
-                        );
-                      } else {
-                        return RefreshIndicator.adaptive(
-                          displacement: 2,
-                          triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                          // edgeOffset: -20,
-                          // notificationPredicate: (notification) {
-                          //   return notification. metrics.pixels == 50;
-                          // },
-                          // edgeOffset: -5,
-                          onRefresh: () async {
-                            ref
-                                .read(River.charactersPod.notifier)
-                                .clearCharactersList();
-                            ref.invalidate(getCharacters);
-                          },
-                          child: CustomScrollView(
-                            slivers: [
-                              if (ref.watch(isListCharacters) == true)
-                                SliverList.separated(
-                                  itemCount: ref
-                                      .watch(River.charactersPod)
-                                      .characters
-                                      ?.characters
-                                      ?.length,
-                                  itemBuilder: (context, index) =>
-                                      CharacterListTile(
-                                    results: ref
-                                        .watch(River.charactersPod)
-                                        .characters!
-                                        .characters![index],
-                                  ),
-                                  separatorBuilder: (context, index) => kSBH12,
-                                )
-                              else
-                                SliverPadding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
-                                  sliver: SliverGrid.builder(
-                                    itemCount: data.characters!.length,
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            mainAxisSpacing: 24,
-                                            crossAxisSpacing: 16,
-                                            childAspectRatio: 0.9),
-                                    itemBuilder: (context, index) =>
-                                        CharactersGridWidget(
-                                      model: data.characters![index],
-                                    ),
-                                  ),
-                                )
+                    ],
+                  ),
+                ),
+
+                Expanded(
+                  child: ref.watch(getCharacters(0)).when(
+                        skipLoadingOnRefresh: false,
+                        skipLoadingOnReload: false,
+                        error: (e, stackTrace) => Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                overlayColor: const WidgetStatePropertyAll(
+                                    AppColors.colorTransparent),
+                                onTap: () {
+                                  ref
+                                      .read(River.charactersPod.notifier)
+                                      .clearCharactersList();
+                                  ref.invalidate(getCharacters);
+                                },
+                                child: Image.asset(
+                                  AppImages.mortyNoEyes,
+                                  width: 134,
+                                  height: 224.75,
+                                ),
+                              ),
+                              kSBH24,
+                              Text(
+                                (e as DioException).message ??
+                                    'Ошибка получения персонажей',
+                                textAlign: TextAlign.center,
+                                style: AppTextStyle.w400s16,
+                              ),
                             ],
                           ),
-                        );
-                      }
-                    },
-                  ),
+                        ),
+                        loading: () => Center(
+                          child: LoadingAnimationWidget.flickr(
+                            leftDotColor: AppColors.color5B6975,
+                            rightDotColor: AppColors.colorFFFFFF,
+                            size: 35,
+                          ),
+                        ),
+                        data: (data) {
+                          if (ref
+                                  .watch(River.charactersPod)
+                                  .characters
+                                  ?.characters
+                                  ?.isEmpty ??
+                              true) {
+                            return Center(
+                              child: Image.asset(AppImages.mortyMiddleFinger,
+                                  scale: 3.1),
+                            );
+                          } else {
+                            return CustomScrollView(
+                              slivers: [
+                                if (ref.watch(isListCharacters) == true)
+                                  SliverList.separated(
+                                    itemCount: ref
+                                        .watch(River.charactersPod)
+                                        .characters
+                                        ?.characters
+                                        ?.length,
+                                    itemBuilder: (context, index) =>
+                                        CharacterListTile(
+                                      results: ref
+                                          .watch(River.charactersPod)
+                                          .characters!
+                                          .characters![index],
+                                    ),
+                                    separatorBuilder: (context, index) =>
+                                        kSBH12,
+                                  )
+                                else
+                                  SliverPadding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    sliver: SliverGrid.builder(
+                                      itemCount: data.characters!.length,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2,
+                                              mainAxisSpacing: 24,
+                                              crossAxisSpacing: 16,
+                                              childAspectRatio: 0.9),
+                                      itemBuilder: (context, index) =>
+                                          CharactersGridWidget(
+                                        model: data.characters![index],
+                                      ),
+                                    ),
+                                  )
+                              ],
+                            );
+                          }
+                        },
+                      ),
+                ),
+                // // blocProvider.allCharacters.isNotEmpty
+                //     ? blocProvider.characterRepo.isActivated
+                //         ? ListView.separated(
+                //             shrinkWrap: true,
+                //             addRepaintBoundaries: false,
+                //             physics:
+                //                 const NeverScrollableScrollPhysics(),
+                //             itemBuilder: (context, index) =>
+                //                 CharacterListWidget(
+                //               results: state.characters[index]
+                //                   .results![index],
+                //             ),
+                //             separatorBuilder: (context, index) =>
+                //                 const SizedBox(
+                //               height: 24,
+                //             ),
+                //             itemCount: state.characters.length,
+                //           )
+                //         : GridView.builder(
+                //             itemCount: state.characters.length,
+                //             shrinkWrap: true,
+                //             physics:
+                //                 const NeverScrollableScrollPhysics(),
+                //             gridDelegate:
+                //                 const SliverGridDelegateWithFixedCrossAxisCount(
+                //                     crossAxisCount: 2,
+                //                     mainAxisSpacing: 24,
+                //                     crossAxisSpacing: 16,
+                //                     childAspectRatio: 0.85),
+                //             itemBuilder: (context, index) =>
+                //                 CharactersGridWidget(
+                //               model: blocProvider
+                //                   .allCharacters[index]
+                //                   .results![index],
+                //             ),
+                //           )
+                // : Column(
+                //     children: [
+                //       const SizedBox(height: 70),
+                //       Image.asset(AppImages.mortyMiddleFinger,
+                //           scale: 3.1),
+                //       const SizedBox(height: 28),
+                //     ],
+                //   ),
+                // ],
+                // ),
+                // ),
+              ],
             ),
-            // blocProvider.allCharacters.isNotEmpty
-            //     ? blocProvider.characterRepo.isActivated
-            //         ? ListView.separated(
-            //             shrinkWrap: true,
-            //             addRepaintBoundaries: false,
-            //             physics:
-            //                 const NeverScrollableScrollPhysics(),
-            //             itemBuilder: (context, index) =>
-            //                 CharacterListWidget(
-            //               results: state.characters[index]
-            //                   .results![index],
-            //             ),
-            //             separatorBuilder: (context, index) =>
-            //                 const SizedBox(
-            //               height: 24,
-            //             ),
-            //             itemCount: state.characters.length,
-            //           )
-            //         : GridView.builder(
-            //             itemCount: state.characters.length,
-            //             shrinkWrap: true,
-            //             physics:
-            //                 const NeverScrollableScrollPhysics(),
-            //             gridDelegate:
-            //                 const SliverGridDelegateWithFixedCrossAxisCount(
-            //                     crossAxisCount: 2,
-            //                     mainAxisSpacing: 24,
-            //                     crossAxisSpacing: 16,
-            //                     childAspectRatio: 0.85),
-            //             itemBuilder: (context, index) =>
-            //                 CharactersGridWidget(
-            //               model: blocProvider
-            //                   .allCharacters[index]
-            //                   .results![index],
-            //             ),
-            //           )
-            // : Column(
-            //     children: [
-            //       const SizedBox(height: 70),
-            //       Image.asset(AppImages.mortyMiddleFinger,
-            //           scale: 3.1),
-            //       const SizedBox(height: 28),
-            //     ],
-            //   ),
+            SearchFieldWidget(
+              title: 'Найти персонажа',
+              onTap: () {
+                showSearchBar(
+                    context: context, delegate: CustomSearchDelegate(ref: ref));
+              },
+            ),
           ],
         ),
       ),
