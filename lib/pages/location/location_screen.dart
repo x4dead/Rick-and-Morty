@@ -25,17 +25,17 @@ class LocationScreen extends StatelessWidget {
                       const SizedBox(height: 35),
                       SearchFieldWidget(
                         title: 'Найти локацию',
-                        onTap: () {
-                          // vr.searchLocation(v);
-                        },
+                        // onTap: () {},
+                        // onTap: () {
+                        //   // vr.searchLocation(v);
+                        // },
                       ),
                       const SizedBox(height: 24),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           // 'sda    ',
-                          'Всего локаций:${5}'
-                              .toUpperCase(),
+                          'Всего локаций:${5}'.toUpperCase(),
                           style:
                               AppTextStyle.w500s10.copyWith(letterSpacing: 1.5),
                         ),

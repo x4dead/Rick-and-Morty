@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:rick_and_morty/utils/constants/ui_constants.dart';
+import 'package:rick_and_morty/utils/extentions/media_query.dart';
 import 'package:rick_and_morty/utils/resources/app_images.dart';
 
 import '../../themes/colors/app_colors.dart';
@@ -13,11 +14,11 @@ class SearchFieldWidget extends StatefulWidget {
     Key? key,
     required this.title,
     this.onTapFilter,
-    required this.onTap,
+    // required this.onTap,
   }) : super(key: key);
   final String title;
   final Function()? onTapFilter;
-  final Function()? onTap;
+  // final Function()? onTap;
 
   @override
   State<SearchFieldWidget> createState() => _SearchFieldWidgetState();
@@ -27,44 +28,6 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
   final controller = FloatingSearchBarController();
   @override
   Widget build(BuildContext context) {
-    // return GestureDetector(
-    //   onTap: onTap,
-    //   child: Container(
-    //     height: 48,
-    //     decoration: BoxDecoration(
-    //       color: AppColors.color152A3A,
-    //       borderRadius: BorderRadius.circular(100),
-    //     ),
-    //     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-    //     child: Row(children: [
-    //       SvgPicture.asset(
-    //         AppImages.search,
-    //         color: AppColors.color5B6975,
-    //       ),
-    //       kSBW10,
-    //       Text('Найти персонажа', style: AppTextStyle.w400s16),
-    //       const Spacer(),
-    //       kSBW10,
-    //       if (onTapFilter != null) ...[
-    //         const VerticalDivider(width: 1, color: Colors.white10),
-    //         kSBW10,
-    //         InkWell(
-    //           // focusColor,
-    //           // splashColor: AppColors.color0B1E2D,
-    //           highlightColor: AppColors.color0B1E2D,
-    //           borderRadius: BorderRadius.circular(100),
-    //           radius: 100,
-
-    //           onTap: onTapFilter,
-    //           child: SvgPicture.asset(
-    //             AppImages.filter,
-    //             color: AppColors.color5B6975,
-    //           ),
-    //         ),
-    //       ]
-    //     ]),
-    //   ),
-    // );
     return FloatingSearchBar(
       controller: controller,
       hint: widget.title,
@@ -74,6 +37,8 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
       clearQueryOnClose: true,
       shadowColor: AppColors.color0B1E2D,
       elevation: 2,
+      width: context.width,
+
       // automaticallyImplyBackButton: false,
 
       transition: ExpandingFloatingSearchBarTransition(
@@ -82,7 +47,7 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
       hintStyle: AppTextStyle.w400s16,
       // insets: EdgeInsets.all(8),
       // openWidth: 400,
-      initiallyHidden: true,
+      // initiallyHidden: true,
       onFocusChanged: (isFocused) {
         if (!isFocused) {
           // controller.close();
@@ -130,8 +95,8 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
             ),
           ),
         ),
-        FloatingSearchBarAction(child: kSBW10),
-        FloatingSearchBarAction(
+        const FloatingSearchBarAction(child: kSBW10),
+        const FloatingSearchBarAction(
             showIfOpened: true, showIfClosed: false, child: kSBW14),
       ],
       actions: [

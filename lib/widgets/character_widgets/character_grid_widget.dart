@@ -31,7 +31,10 @@ class CharactersGridWidget extends StatelessWidget {
       },
       child: Column(
         children: [
-          CustomAvatar(imageUrl: model.image!, height: 120, width: 120),
+          Hero(
+              tag: 'character-img-${model.image}',
+              child: CustomAvatar(
+                  imageUrl: model.image!, height: 120, width: 120)),
           const SizedBox(height: 18),
           Text(
             model.status!.toUpperCase(),

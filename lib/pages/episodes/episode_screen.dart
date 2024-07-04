@@ -27,9 +27,9 @@ class EpisodeScreen extends StatelessWidget {
                       const SizedBox(height: 35),
                       SearchFieldWidget(
                         title: 'Найти эпизод',
-                        onTap: () {
-                          // vr.searchLocation(v);
-                        },
+                        // onTap: () {
+                        // vr.searchLocation(v);
+                        // },
                       ),
                       const SizedBox(height: 8),
                       // ListView.builder(
